@@ -1,0 +1,1 @@
+在项目里面添加conf文件夹的目的是为了从BootStrap.java中直接启动一个Tomcat实例
