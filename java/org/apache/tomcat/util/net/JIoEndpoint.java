@@ -381,6 +381,10 @@ public class JIoEndpoint extends AbstractEndpoint {
                     serverSocket = serverSocketFactory.createSocket(getPort(),
                             getBacklog(), getAddress());
                 }
+                /*
+                 * 创建的serverSocket绑定到端口上后，但是，这里是多线程都绑定到了相同的端口上面，这样不会抛出异常么？
+                 * 如何进行请求的分配由什么来决定？
+                 */
             } catch (BindException orig) {
                 String msg;
                 if (getAddress() == null)

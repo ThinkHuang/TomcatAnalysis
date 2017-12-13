@@ -502,14 +502,14 @@ public class Catalina {
 
         long t1 = System.nanoTime();
 
-        initDirs();
+        initDirs();//初始化各种环境变量，确保环境变量正确设置:catalina.base,java.io.tmpdir
 
         // Before digester - it may be needed
 
-        initNaming();
+        initNaming();//额外的参数设置，一般为空
 
         // Create and execute our Digester
-        Digester digester = createStartDigester();
+        Digester digester = createStartDigester();//创建解析conf/server.xml文件的对象
 
         InputSource inputSource = null;
         InputStream inputStream = null;
@@ -573,6 +573,12 @@ public class Catalina {
         try {
             inputSource.setByteStream(inputStream);
             digester.push(this);
+            /*
+             * 这里完成Server的初始化,但是初始化的Server监听的端口是8005(默认的远程关服务端口)。
+             * 从conf/server.xml中来，这也是为什么在Bootstrap中启动的Server只能监听8005的端口
+             * digester.parse(inputSource)这个方法不仅仅是解析conf/server.xml文件，还会
+             * 通过配置文件初始化Server等容器对象。具体过来还不是很清楚？？？？
+             */
             digester.parse(inputSource);
             inputStream.close();
         } catch (SAXParseException spe) {
@@ -584,13 +590,17 @@ public class Catalina {
             return;
         }
 
-        getServer().setCatalina(this);
+        getServer().setCatalina(this);//以当前对象为承载环境，开启一个服务
 
         // Stream redirection
         initStreams();
 
         // Start the new server
         try {
+        	/*
+        	 * 调用StandardServer的init方法，由于StandardServer没有重写init方法，这里会调用父类LifecycleBase类的init方法
+        	 * 由于LifecycleBase采用了模板模式，这里会到StandardServer的initInternal方法
+        	 */
             getServer().init();
         } catch (LifecycleException e) {
             if (Boolean.getBoolean("org.apache.catalina.startup.EXIT_ON_INIT_FAILURE")) {
@@ -784,10 +794,12 @@ public class Catalina {
                     catalinaBase = base.getAbsolutePath();
                 }
             }
+            System.out.println("Catalina.load开始设置catalina.base全局变量:" + catalinaBase);
             System.setProperty(Globals.CATALINA_BASE_PROP, catalinaBase);
         }
 
         String temp = System.getProperty("java.io.tmpdir");
+        System.out.println("Catalina.load获取临时目录java.io.tmpdir:" + temp);
         if (temp == null || (!(new File(temp)).exists())
                 || (!(new File(temp)).isDirectory())) {
             log.error(sm.getString("embedded.notmp", temp));

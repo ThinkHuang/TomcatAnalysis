@@ -543,10 +543,10 @@ public abstract class AbstractProtocol implements ProtocolHandler,
 
             try {
                 if (processor == null) {
-                    processor = recycledProcessors.poll();
+                    processor = recycledProcessors.poll();//以生产者-消费者模式进行获取processor
                 }
                 if (processor == null) {
-                    processor = createProcessor();
+                    processor = createProcessor();//如果队列是空的，那么将创建一个processor，并进行注册
                 }
 
                 if (getLog().isDebugEnabled()) {
@@ -555,7 +555,7 @@ public abstract class AbstractProtocol implements ProtocolHandler,
                             "Processor [" + logHashcode(processor) + "]");
                 }
 
-                initSsl(socket, processor);
+                initSsl(socket, processor);// TODO: do nothing
 
                 SocketState state = SocketState.CLOSED;
                 do {

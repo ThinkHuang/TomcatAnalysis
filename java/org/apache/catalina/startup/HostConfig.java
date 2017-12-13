@@ -463,14 +463,16 @@ public class HostConfig
     protected void deployApps() {
 
         File appBase = appBase();
+        System.out.println("appBase:" + appBase);
         File configBase = configBase();
-        String[] filteredAppPaths = filterAppPaths(appBase.list());
+        System.out.println("configBase:" + configBase);
+        String[] filteredAppPaths = filterAppPaths(appBase.list());//部署webapp下的项目
         // Deploy XML descriptors from configBase
         deployDescriptors(configBase, configBase.list());
         // Deploy WARs
-        deployWARs(appBase, filteredAppPaths);
+        deployWARs(appBase, filteredAppPaths);//部署war包
         // Deploy expanded folders
-        deployDirectories(appBase, filteredAppPaths);
+        deployDirectories(appBase, filteredAppPaths);//部署文件
         
     }
 

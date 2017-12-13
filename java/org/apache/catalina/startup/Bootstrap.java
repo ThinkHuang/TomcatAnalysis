@@ -106,11 +106,11 @@ public final class Bootstrap {
     private ClassLoader createClassLoader(String name, ClassLoader parent)
         throws Exception {
 
-        String value = CatalinaProperties.getProperty(name + ".loader");
+        String value = CatalinaProperties.getProperty(name + ".loader");//common.loader=${catalina.base}/lib,${catalina.base}/lib/*.jar,${catalina.home}/lib,${catalina.home}/lib/*.jar
         if ((value == null) || (value.equals("")))
             return parent;
 
-        value = replace(value);
+        value = replace(value);//替换掉catalina.base和catalina.home系统变量，形成完整的路径
 
         List<Repository> repositories = new ArrayList<Repository>();
 
@@ -161,6 +161,7 @@ public final class Bootstrap {
         // Register the server classloader
         ObjectName objectName =
             new ObjectName("Catalina:type=ServerClassLoader,name=" + name);
+        System.out.println("Catalina:type=ServerClassLoader,name=" + objectName.getCanonicalName());
         mBeanServer.registerMBean(classLoader, objectName);
 
         return classLoader;
@@ -215,6 +216,9 @@ public final class Bootstrap {
 
     /**
      * Initialize daemon.
+     * 完成的工作是：
+     * 1、通过反射机制实例化org.apache.catalina.startup.Catalina对象，并调用setParentClassLoader方法
+     * 2、将实例化出来的Catalina对象赋值给全局变量catalinaDaemon
      */
     public void init()
         throws Exception
@@ -224,11 +228,11 @@ public final class Bootstrap {
         setCatalinaHome();//项目在本地的物理路径，以本项目为例catalina.home=W:\workspace\TomcatAnalysis
         setCatalinaBase();//设置catalina.base=W:\workspace\TomcatAnalysis
 
-        initClassLoaders();
+        initClassLoaders();//读取catalina.properties配置文件中common.loader=${catalina.base}/lib,${catalina.base}/lib/*.jar,${catalina.home}/lib,${catalina.home}/lib/*.jar
 
         Thread.currentThread().setContextClassLoader(catalinaLoader);
 
-        SecurityClassLoad.securityClassLoad(catalinaLoader);
+        SecurityClassLoad.securityClassLoad(catalinaLoader);//catalinaLoader在initClassLoaders()方法中已经完成了初始化
 
         // Load our startup class and call its process() method
         if (log.isDebugEnabled())
@@ -375,6 +379,7 @@ public final class Bootstrap {
 
     /**
      * Set flag.
+     * 调用Catalina的setAwait方法，并设置为await
      */
     public void setAwait(boolean await)
         throws Exception {
@@ -428,7 +433,7 @@ public final class Bootstrap {
                 t.printStackTrace();
                 return;
             }
-            daemon = bootstrap;
+            daemon = bootstrap;//该自举类对象包含了Catalina实例
         }
 
         try {
@@ -446,7 +451,7 @@ public final class Bootstrap {
                 daemon.stop();
             } else if (command.equals("start")) {
                 daemon.setAwait(true);
-                daemon.load(args);
+                daemon.load(args);//调用Catalina对象的Load方法
                 daemon.start();
             } else if (command.equals("stop")) {
                 daemon.stopServer(args);

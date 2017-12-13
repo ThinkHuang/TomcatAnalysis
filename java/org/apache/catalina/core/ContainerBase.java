@@ -1077,6 +1077,17 @@ public abstract class ContainerBase extends LifecycleMBeanBase
     }
 
 
+    /**
+     * StandardEngine和StandardHost都会调用这里的initInternal方法，
+     * 为什么要生成两个线程池？为什么说这两者创建线程的工厂方法不一样？
+     * Container下的其他容器也会调用initInternal，不是也会进行线程池的生成么？
+     * 解释第三个问题，由于StandardHost的init是在start中调用的，这样StandardContext就不会调用init方法了，
+     * 也就不会调用initInternal生成线程池了,这样就又引出了一个问题，StandardContext中的initInternal方法是什么时候调用的？
+     * 解释上面的问题，StandardContext中的initInternal的方法是由StandardHost的start事件监听器HostConfig监听启动的，从而不需要调用
+     * ContainerBase的initInternal方法。
+     * (non-Javadoc)
+     * @see org.apache.catalina.util.LifecycleMBeanBase#initInternal()
+     */
     @Override
     protected void initInternal() throws LifecycleException {
         BlockingQueue<Runnable> startStopQueue =
@@ -1115,7 +1126,7 @@ public abstract class ContainerBase extends LifecycleMBeanBase
         if ((resources != null) && (resources instanceof Lifecycle))
             ((Lifecycle) resources).start();
 
-        // Start our child containers, if any
+        // Start our child containers, if any//会调用StandardHost的init方法
         Container children[] = findChildren();
         List<Future<Void>> results = new ArrayList<Future<Void>>();
         for (int i = 0; i < children.length; i++) {
@@ -1138,7 +1149,7 @@ public abstract class ContainerBase extends LifecycleMBeanBase
         }
 
         // Start the Valves in our pipeline (including the basic), if any
-        if (pipeline instanceof Lifecycle)
+        if (pipeline instanceof Lifecycle)//怎么调用相应的Valve的invoke方法？
             ((Lifecycle) pipeline).start();
 
 
@@ -1465,6 +1476,7 @@ public abstract class ContainerBase extends LifecycleMBeanBase
 
         if (thread != null)
             return;
+        //后台监视线程，用于reload进行热部署
         if (backgroundProcessorDelay <= 0)
             return;
 

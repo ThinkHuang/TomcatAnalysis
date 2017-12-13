@@ -1591,7 +1591,7 @@ public class WebappClassLoader
         }
 
         // (0) Check our previously loaded local class cache
-        clazz = findLoadedClass0(name);
+        clazz = findLoadedClass0(name);//查看本地缓存是否加载了类信息
         if (clazz != null) {
             if (log.isDebugEnabled())
                 log.debug("  Returning class from cache");
@@ -1601,7 +1601,7 @@ public class WebappClassLoader
         }
 
         // (0.1) Check our previously loaded class cache
-        clazz = findLoadedClass(name);
+        clazz = findLoadedClass(name);//查看JVM是否加载了类信息
         if (clazz != null) {
             if (log.isDebugEnabled())
                 log.debug("  Returning class from cache");
@@ -1613,6 +1613,7 @@ public class WebappClassLoader
         // (0.2) Try loading the class with the system class loader, to prevent
         //       the webapp from overriding J2SE classes
         try {
+        	//使用系统ClassLoader进行类加载，默认先使用BootStrapClassLoader，ExtensionClassLoader或ApplicationClassLoader进行类加载
             clazz = system.loadClass(name);
             if (clazz != null) {
                 if (resolve)

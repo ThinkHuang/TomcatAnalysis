@@ -953,6 +953,9 @@ public class Connector extends LifecycleMBeanBase  {
         }
 
         try {
+        	/*
+        	 * 默认是Http11Protocol,但是该类没有实现init方法，在父类AbstractHttp11JsseProtocol中实现了init方法，
+        	 */
             protocolHandler.init();
         } catch (Exception e) {
             throw new LifecycleException

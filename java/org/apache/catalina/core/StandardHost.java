@@ -315,6 +315,26 @@ public class StandardHost extends ContainerBase implements Host {
                                    oldConfigClass, this.configClass);
 
     }
+    
+    /**
+     * 手动添加initInternal实现，主要是为了打印出调用栈信息，确认什么时候进行了StandardHost.initInternal方法的调用
+     * (non-Javadoc)
+     * @see org.apache.catalina.core.ContainerBase#initInternal()
+     */
+    @Override
+    protected void initInternal() throws LifecycleException {  
+        Throwable ex = new Throwable();  
+        StackTraceElement[] stackElements = ex.getStackTrace();  
+        if (stackElements != null) {  
+            for (int i = stackElements.length - 1; i >= 0; i--) {  
+                System.out.print(stackElements[i].getClassName() + "\t");  
+                System.out.print(stackElements[i].getMethodName() + "\t");  
+                System.out.print(stackElements[i].getFileName() + "\t");  
+                System.out.println(stackElements[i].getLineNumber());  
+            }  
+        }  
+        super.initInternal();  
+    }  
 
 
     /**

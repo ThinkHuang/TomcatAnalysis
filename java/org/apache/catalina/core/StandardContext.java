@@ -6209,6 +6209,18 @@ public class StandardContext extends ContainerBase
     protected void initInternal() throws LifecycleException {
         super.initInternal();
         
+        //以下内容只是为了打印出调用栈，追踪CATALINA-HOME/webapps/下的项目调用过程
+        Throwable ex = new Throwable();
+        StackTraceElement[] stackElements = ex.getStackTrace();  
+        if (stackElements != null) {  
+            for (int i = stackElements.length - 1; i >= 0; i--) {  
+                System.out.print(stackElements[i].getClassName() + "\t");  
+                System.out.print(stackElements[i].getMethodName() + "\t");  
+                System.out.print(stackElements[i].getFileName() + "\t");  
+                System.out.println(stackElements[i].getLineNumber());  
+            }  
+        }  
+        
         if (processTlds) {
             this.addLifecycleListener(new TldConfig());
         }

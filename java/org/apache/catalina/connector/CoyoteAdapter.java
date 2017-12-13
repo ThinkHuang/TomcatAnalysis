@@ -798,7 +798,7 @@ public class CoyoteAdapter implements Adapter {
         // encoding that doesn't give the expected result so be explicit
         String enc = connector.getURIEncoding();
         if (enc == null) {
-            enc = "ISO-8859-1";
+            enc = "ISO-8859-1";//如果不设置编码格式，默认浏览器请求到服务器设置的编码格式为ISO-8859-1
         }
         Charset charset = null;
         try {
