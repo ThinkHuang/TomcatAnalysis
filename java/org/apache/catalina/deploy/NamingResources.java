@@ -106,7 +106,7 @@ public class NamingResources extends LifecycleMBeanBase implements Serializable 
 
 
     /**
-     * The local  EJB resource references for this web application, keyed by
+     * The local EJB resource references for this web application, keyed by
      * name.
      */
     private HashMap<String, ContextLocalEjb> localEjbs =

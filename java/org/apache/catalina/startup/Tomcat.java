@@ -528,15 +528,25 @@ public class Tomcat {
         ctx.setPath(url);
         ctx.setDocBase(path);
 
+        /*
+         *  解析Tomcat下的web.xml文件，并初始化默认配置，特别是初始化两个servlet，
+         *  一个是：org.apache.catalina.servlets.DefaultServlet
+         *  另一个是：org.apache.jasper.servlet.JspServlet
+         */
         ctx.addLifecycleListener(new DefaultWebXmlListener());
         
         ContextConfig ctxCfg = new ContextConfig();
-        ctx.addLifecycleListener(ctxCfg);//将ContextConfig添加到监听器中，当Context发生变动时，将会通知ContextConfig
+        /*
+         * 将ContextConfig添加到监听器中，当Context发生变动时，将会通知ContextConfig
+         */
+        ctx.addLifecycleListener(ctxCfg);
         
         // prevent it from looking ( if it finds one - it'll have dup error )
         ctxCfg.setDefaultWebXml(noDefaultWebXmlPath());
 
-        //将Context加入到父容器Host中,如果是在手动添加的，那么Engine，Host将在这里创建
+        /*
+         * 将Context加入到父容器Host中,如果是在手动添加的，那么Engine，Host将在这里创建
+         */
         if (host == null) {
             getHost().addChild(ctx);
         } else {

@@ -146,9 +146,9 @@ public abstract class LifecycleMBeanBase extends LifecycleBase
             String objectNameKeyProperties) {
         
         // Construct an object name with the right domain
-        StringBuilder name = new StringBuilder(getDomain());
+        StringBuilder name = new StringBuilder(getDomain());//getDomain()="Catalina"
         name.append(':');
-        name.append(objectNameKeyProperties);
+        name.append(objectNameKeyProperties);//Catalina:type=StringCache
 
         ObjectName on = null;
 

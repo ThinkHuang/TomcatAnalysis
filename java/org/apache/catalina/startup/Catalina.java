@@ -577,7 +577,7 @@ public class Catalina {
              * 这里完成Server的初始化,但是初始化的Server监听的端口是8005(默认的远程关服务端口)。
              * 从conf/server.xml中来，这也是为什么在Bootstrap中启动的Server只能监听8005的端口
              * digester.parse(inputSource)这个方法不仅仅是解析conf/server.xml文件，还会
-             * 通过配置文件初始化Server等容器对象。具体过来还不是很清楚？？？？
+             * 通过配置文件初始化Server等容器对象。具体还不是很清楚？？？？
              */
             digester.parse(inputSource);
             inputStream.close();

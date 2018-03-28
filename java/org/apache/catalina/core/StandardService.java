@@ -437,6 +437,11 @@ public class StandardService extends LifecycleMBeanBase implements Service {
             log.info(sm.getString("standardService.start.name", this.name));
         setState(LifecycleState.STARTING);
 
+        /**
+         * 这里的container如何知道是StandardEngine？
+         * 调用路径为：在Tomcat中通过addWebapp()方法完成StandardContext和ContextConfig的实例化
+         * 然后将在getHost时，一层层调用getEngine()，getService()和getServer(),最终完成了链式的初始化
+         */
         // Start our defined Container first
         if (container != null) {
             synchronized (container) {
@@ -452,6 +457,9 @@ public class StandardService extends LifecycleMBeanBase implements Service {
 
         // Start our defined Connectors second
         synchronized (connectors) {
+            /*
+             *  这里的connector是会完成Http11Protocol的实例化
+             */
             for (Connector connector: connectors) {
                 try {
                     // If it has already failed, don't try and start it

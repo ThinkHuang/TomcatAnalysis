@@ -66,7 +66,7 @@ public class Connector extends LifecycleMBeanBase  {
     }
 
     public Connector(String protocol) {
-        setProtocol(protocol);
+        setProtocol(protocol);// 实例化Http11Protocol对象
         // Instantiate protocol handler
         try {
             Class<?> clazz = Class.forName(protocolHandlerClassName);

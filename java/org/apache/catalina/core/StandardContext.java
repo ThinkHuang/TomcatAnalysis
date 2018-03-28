@@ -6207,6 +6207,20 @@ public class StandardContext extends ContainerBase
 
     @Override
     protected void initInternal() throws LifecycleException {
+        /*
+         *  通过追踪调用栈，发现StandardContent的init方法的调用是通过StandardHost在init线程池调用start方法调用的，
+         *  你可能会想为什么是start方法调用的呢？这个时候就要回到LifecycleBase的start方法了，这个时候我们就会明白为啥
+         *  LifecycleBase要在start方法上加入这段逻辑了：
+         *  if (state.equals(LifecycleState.NEW)) {
+         *      init();
+         *  } else if (state.equals(LifecycleState.FAILED)){
+         *      stop();
+         *  } else if (!state.equals(LifecycleState.INITIALIZED) &&
+         *      !state.equals(LifecycleState.STOPPED)) {
+         *      invalidTransition(Lifecycle.BEFORE_START_EVENT);
+         *  }
+         *  就是因为在初始化StandardHost是在start方法中初始化StandardContext和StandardWrapper容器的
+         */
         super.initInternal();
         
         //以下内容只是为了打印出调用栈，追踪CATALINA-HOME/webapps/下的项目调用过程

@@ -64,6 +64,7 @@ public final class LifecycleSupport {
 
     /**
      * The set of registered LifecycleListeners for event notifications.
+     * 为什么使用数组，而不是用集合？
      */
     private LifecycleListener listeners[] = new LifecycleListener[0];
     
