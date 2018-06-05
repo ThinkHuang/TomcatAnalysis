@@ -65,7 +65,7 @@ public class StandardEngine extends ContainerBase implements Engine {
     public StandardEngine() {
 
         super();
-        pipeline.setBasic(new StandardEngineValve());
+        pipeline.setBasic(new StandardEngineValve());// 设置责任链的第一链为自己的valve
         /* Set the jmvRoute using the system property jvmRoute */
         try {
             setJvmRoute(System.getProperty("jvmRoute"));
@@ -239,7 +239,7 @@ public class StandardEngine extends ContainerBase implements Engine {
      */
     @Override
     public void addChild(Container child) {
-
+        // 暂时只能知道是在Catalina.java中定义了StandardEngine的调用行为
         if (!(child instanceof Host))
             throw new IllegalArgumentException
                 (sm.getString("standardEngine.notHost"));

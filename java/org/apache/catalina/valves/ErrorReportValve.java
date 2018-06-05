@@ -24,6 +24,7 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.catalina.LifecycleException;
 import org.apache.catalina.connector.Request;
 import org.apache.catalina.connector.Response;
 import org.apache.catalina.util.RequestUtil;
@@ -74,6 +75,13 @@ public class ErrorReportValve extends ValveBase {
 
         return (info);
 
+    }
+    
+    // 下面的方法主要是为了追踪执行路径
+    public void startInternal() throws LifecycleException
+    {
+        System.out.println(this + "启动了...");
+        super.startInternal();
     }
 
 

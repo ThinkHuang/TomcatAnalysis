@@ -76,7 +76,7 @@ public final class StandardServer extends LifecycleMBeanBase implements Server {
         globalNamingResources = new NamingResources();
         globalNamingResources.setContainer(this);
 
-        if (isUseNaming()) {
+        if (isUseNaming()) {// note:true
             if (namingContextListener == null) {
                 namingContextListener = new NamingContextListener();
                 addLifecycleListener(namingContextListener);
@@ -797,6 +797,10 @@ public final class StandardServer extends LifecycleMBeanBase implements Server {
                                 File f = new File (url.toURI());
                                 if (f.isFile() &&
                                         f.getName().endsWith(".jar")) {
+                                    /*
+                                     *  不管是使用maven管理还是外部引入的jar都通过shared class loader进行加载。
+                                     *  这样在该server下的所有context都能使用公共的jar
+                                     */
                                     ExtensionValidator.addSystemResource(f);
                                 }
                             } catch (URISyntaxException e) {
@@ -811,6 +815,9 @@ public final class StandardServer extends LifecycleMBeanBase implements Server {
             }
         }
         // Initialize our defined Services
+        /*
+         *  这里的service是何时注入的，其实只有StandardService，在Catalina.load方法中实现了service，listener，Engine等等规则的加载
+         */
         for (int i = 0; i < services.length; i++) {
             services[i].init();
         }

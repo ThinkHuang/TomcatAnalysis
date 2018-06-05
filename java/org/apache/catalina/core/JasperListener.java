@@ -65,6 +65,7 @@ public class JasperListener
                 Class.forName("org.apache.jasper.compiler.JspRuntimeContext",
                               true,
                               this.getClass().getClassLoader());
+                System.out.println("来自于 org.apache.catalina.core.JasperListener监听 standardserver 正在启动。。。");
             } catch (Throwable t) {
                 ExceptionUtils.handleThrowable(t);
                 // Should not occur, obviously

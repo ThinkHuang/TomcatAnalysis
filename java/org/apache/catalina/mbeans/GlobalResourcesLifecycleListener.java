@@ -78,7 +78,11 @@ public class GlobalResourcesLifecycleListener
      */
     @Override
     public void lifecycleEvent(LifecycleEvent event) {
-
+        if(Lifecycle.BEFORE_INIT_EVENT.equals(event.getType()))
+        {
+            //只是为了测试
+            System.out.println("来自于 org.apache.catalina.mbeans.GlobalResourcesLifecycleListener 没有针对standardserver的init的启动服务。。。");
+        }
         if (Lifecycle.START_EVENT.equals(event.getType())) {
             component = event.getLifecycle();
             createMBeans();

@@ -3,12 +3,7 @@
  */
 package test;
 
-import java.io.File;
-
-import org.apache.catalina.LifecycleException;
 import org.apache.catalina.startup.Tomcat;
-import org.apache.tomcat.util.buf.ByteChunk;
-import org.eclipse.jdt.internal.core.Assert;
 
 /**
  * <p>Project:TomcatAnalysis

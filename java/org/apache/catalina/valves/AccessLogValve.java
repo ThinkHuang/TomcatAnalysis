@@ -51,6 +51,7 @@ import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
 import org.apache.tomcat.util.ExceptionUtils;
 import org.apache.tomcat.util.buf.B2CConverter;
+import org.eclipse.jdt.core.dom.ThisExpression;
 
 
 /**
@@ -1220,7 +1221,7 @@ public class AccessLogValve extends ValveBase implements AccessLog {
         fileDateFormatter.setTimeZone(timezone);
         dateStamp = fileDateFormatter.format(new Date(System.currentTimeMillis()));
         open();
-
+        System.out.println(this + "尼強。。。");
         setState(LifecycleState.STARTING);
     }
 

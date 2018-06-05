@@ -54,7 +54,7 @@ public class Http11Protocol extends AbstractHttp11JsseProtocol {
     // ------------------------------------------------------------ Constructor
 
 
-    public Http11Protocol() {//什么时候调用反射进行初始化？？？？？？
+    public Http11Protocol() {//什么时候调用反射进行初始化？？？？？？在ConnectorCreateRule的begin方法完成实例化
         endpoint = new JIoEndpoint();
         cHandler = new Http11ConnectionHandler(this);
         ((JIoEndpoint) endpoint).setHandler(cHandler);

@@ -285,6 +285,9 @@ public class Catalina {
     /**
      * Create and configure the Digester we will be using for startup.
      */
+    /**
+     * @return
+     */
     protected Digester createStartDigester() {
         long t1=System.currentTimeMillis();
         // Initialize the digester
@@ -328,7 +331,7 @@ public class Catalina {
                                  "className");
         digester.addSetProperties("Server/Service");
         digester.addSetNext("Server/Service",
-                            "addService",
+                            "addService", //对应StandardServer的addService方法
                             "org.apache.catalina.Service");
 
         digester.addObjectCreate("Server/Service/Listener",
@@ -509,7 +512,10 @@ public class Catalina {
         initNaming();//额外的参数设置，一般为空
 
         // Create and execute our Digester
-        Digester digester = createStartDigester();//创建解析conf/server.xml文件的对象
+        /*
+         * 创建解析conf/server.xml文件的对象，其中包括各种容器的结构的初始化
+         */
+        Digester digester = createStartDigester();
 
         InputSource inputSource = null;
         InputStream inputStream = null;
@@ -523,7 +529,7 @@ public class Catalina {
                 log.debug(sm.getString("catalina.configFail", file), e);
             }
         }
-        if (inputStream == null) {
+        if (inputStream == null) { // note: 里面的代码不会走
             try {
                 inputStream = getClass().getClassLoader()
                     .getResourceAsStream(getConfigFile());
@@ -579,7 +585,7 @@ public class Catalina {
              * digester.parse(inputSource)这个方法不仅仅是解析conf/server.xml文件，还会
              * 通过配置文件初始化Server等容器对象。具体还不是很清楚？？？？
              */
-            digester.parse(inputSource);
+            digester.parse(inputSource);// 确定调用了addService方法
             inputStream.close();
         } catch (SAXParseException spe) {
             log.warn("Catalina.start using " + getConfigFile() + ": " +

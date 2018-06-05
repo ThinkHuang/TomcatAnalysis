@@ -31,6 +31,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.catalina.Context;
 import org.apache.catalina.Globals;
+import org.apache.catalina.LifecycleException;
 import org.apache.catalina.Wrapper;
 import org.apache.catalina.comet.CometEvent;
 import org.apache.catalina.connector.ClientAbortException;
@@ -110,6 +111,13 @@ final class StandardHostValve extends ValveBase {
 
         return (info);
 
+    }
+    
+    // 下面的方法主要是为了追踪执行路径，手动添加
+    public void startInternal() throws LifecycleException
+    {
+        System.out.println(this + "启动了...");
+        super.startInternal();
     }
 
 

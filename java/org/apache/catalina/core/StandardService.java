@@ -438,18 +438,18 @@ public class StandardService extends LifecycleMBeanBase implements Service {
         setState(LifecycleState.STARTING);
 
         /**
-         * 这里的container如何知道是StandardEngine？
+           * 这里的container如何知道是StandardEngine？
          * 调用路径为：在Tomcat中通过addWebapp()方法完成StandardContext和ContextConfig的实例化
          * 然后将在getHost时，一层层调用getEngine()，getService()和getServer(),最终完成了链式的初始化
          */
         // Start our defined Container first
-        if (container != null) {
+        if (container != null) { // 注入的Connector的时候已经注入了container（StandardEngine)
             synchronized (container) {
                 container.start();
             }
         }
 
-        synchronized (executors) {
+        synchronized (executors) { // note null
             for (Executor executor: executors) {
                 executor.start();
             }
@@ -458,7 +458,7 @@ public class StandardService extends LifecycleMBeanBase implements Service {
         // Start our defined Connectors second
         synchronized (connectors) {
             /*
-             *  这里的connector是会完成Http11Protocol的实例化
+             *  通过connector注入的Http11Protocol和AjpProtocol实例
              */
             for (Connector connector: connectors) {
                 try {
@@ -549,22 +549,26 @@ public class StandardService extends LifecycleMBeanBase implements Service {
         super.initInternal();
         
         if (container != null) {
-            container.init();
+            container.init();// StandardEngine在这里已经完成了初始化
         }
 
         // Initialize any Executors
-        for (Executor executor : findExecutors()) {
+        for (Executor executor : findExecutors()) {// 这里的Executor同样是在Catalina.class的load方法中，创建Digester时约定好的StandardThreadExecutor
             if (executor instanceof LifecycleMBeanBase) {
                 ((LifecycleMBeanBase) executor).setDomain(getDomain());
             }
-            executor.init();
+            executor.init();// 不做任何事情，只是纳入到容器中进行管理
         }
 
         // Initialize our defined Connectors
         synchronized (connectors) {
+            /*
+             *  这里的Connector来自于conf/Server.xml中的connector元素
+             *  对象为：Http11Protocol和AjpProtocol
+             */
             for (Connector connector : connectors) {
                 try {
-                    connector.init();
+                    connector.init();// protocol初始化完毕
                 } catch (Exception e) {
                     String message = sm.getString(
                             "standardService.connector.initFailed", connector);

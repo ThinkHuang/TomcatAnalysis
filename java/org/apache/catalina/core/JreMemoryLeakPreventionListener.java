@@ -223,7 +223,7 @@ public class JreMemoryLeakPreventionListener implements LifecycleListener {
     public void lifecycleEvent(LifecycleEvent event) {
         // Initialise these classes when Tomcat starts
         if (Lifecycle.BEFORE_INIT_EVENT.equals(event.getType())) {
-
+            System.out.println("来自于 org.apache.catalina.core.JreMemoryLeakPreventionListener监听 standardserver 正在启动。。。");
             ClassLoader loader = Thread.currentThread().getContextClassLoader();
 
             try

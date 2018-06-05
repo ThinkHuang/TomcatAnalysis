@@ -74,6 +74,11 @@ public class ThreadLocalLeakPreventionListener implements LifecycleListener,
     public void lifecycleEvent(LifecycleEvent event) {
         try {
             Lifecycle lifecycle = event.getLifecycle();
+            if(Lifecycle.BEFORE_INIT_EVENT.equals(event.getType()))
+            {
+                // 只是为了测试监听
+                System.out.println("来自于 org.apache.catalina.core.ThreadLocalLeakPreventionListener 没有针对standardserver的init的启动服务。。。");
+            }
             if (Lifecycle.AFTER_START_EVENT.equals(event.getType()) &&
                     lifecycle instanceof Server) {
                 // when the server starts, we register ourself as listener for

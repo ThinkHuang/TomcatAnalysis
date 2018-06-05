@@ -390,6 +390,7 @@ public class StandardPipeline extends LifecycleBase
             current = basic;
         }
         while (current != null) {
+            System.out.println("this:" + this + "Ö´ÐÐÁ´Îª:" + current.getInfo());
             valveList.add(current);
             current = current.getNext();
         }

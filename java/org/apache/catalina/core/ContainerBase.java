@@ -1125,11 +1125,11 @@ public abstract class ContainerBase extends LifecycleMBeanBase
         if ((resources != null) && (resources instanceof Lifecycle))
             ((Lifecycle) resources).start();
 
-        // Start our child containers, if any//会调用StandardHost的init方法
+        // Start our child containers, if any
+        //StandardHost会被加入到children列表中，而StandardContext不能纳入列表中
         Container children[] = findChildren();
         List<Future<Void>> results = new ArrayList<Future<Void>>();
         for (int i = 0; i < children.length; i++) {
-            System.out.println("开启线程池调用子容器初始化方法 " + children[i].getName());
             results.add(startStopExecutor.submit(new StartChild(children[i])));
         }
 
@@ -1147,16 +1147,21 @@ public abstract class ContainerBase extends LifecycleMBeanBase
             throw new LifecycleException(
                     sm.getString("containerBase.threadedStartFailed"));
         }
-
+        /**
+         * 下面启动责任链模式，对请求进行拦截
+         */
         // Start the Valves in our pipeline (including the basic), if any
         if (pipeline instanceof Lifecycle)//怎么调用相应的Valve的invoke方法？
             ((Lifecycle) pipeline).start();
 
-
+        // 各种感兴趣的监听组件是如何加入到注册器中的？
+        /**
+         * 明天研究观察者模式，探寻监听组件是如何被加入到注册器中去的？
+         */
         setState(LifecycleState.STARTING);
 
         // Start our thread
-        threadStart();
+        threadStart();// 后台监控，用于热部署
 
     }
 

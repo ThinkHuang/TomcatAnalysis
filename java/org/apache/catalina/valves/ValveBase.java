@@ -131,7 +131,7 @@ public abstract class ValveBase extends LifecycleMBeanBase
      */
     @Override
     public void setContainer(Container container) {
-
+        // 在StandardPipeline中完成了Container容器的设置
         this.container = container;
 
     }
@@ -243,7 +243,7 @@ public abstract class ValveBase extends LifecycleMBeanBase
     @Override
     protected synchronized void startInternal() throws LifecycleException {
 
-        setState(LifecycleState.STARTING);
+        setState(LifecycleState.STARTING);// null
     }
 
 

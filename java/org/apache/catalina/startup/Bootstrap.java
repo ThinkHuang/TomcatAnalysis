@@ -492,14 +492,19 @@ public final class Bootstrap {
      */
     private void setCatalinaBase() {
 
-        if (System.getProperty(Globals.CATALINA_BASE_PROP) != null)
+        if (System.getProperty(Globals.CATALINA_BASE_PROP) != null){
+            System.out.println("catalina.base=" + System.getProperty(Globals.CATALINA_BASE_PROP));
             return;
-        if (System.getProperty(Globals.CATALINA_HOME_PROP) != null)
+        }
+        if (System.getProperty(Globals.CATALINA_HOME_PROP) != null){
             System.setProperty(Globals.CATALINA_BASE_PROP,
-                               System.getProperty(Globals.CATALINA_HOME_PROP));
+                    System.getProperty(Globals.CATALINA_HOME_PROP));
+            System.out.println("catalina.home=" + System.getProperty(Globals.CATALINA_HOME_PROP));
+        }
         else
             System.setProperty(Globals.CATALINA_BASE_PROP,
                                System.getProperty("user.dir"));
+        System.out.println("user.dir=" + System.getProperty("user.dir"));
 
     }
 

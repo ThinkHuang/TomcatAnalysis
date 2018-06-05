@@ -318,6 +318,12 @@ public class StandardHost extends ContainerBase implements Host {
     
     /**
      * 手动添加initInternal实现，主要是为了打印出调用栈信息，确认什么时候进行了StandardHost.initInternal方法的调用
+     * StandardHost的initInternal方法的主要来源于StandardEngine的startInternal方法启动了线程任务，在使用findChildren()方法时，将
+     * StandardHost寻找出来，然后调用StandardHost.start()->LifecycleBase.start()，关键点就在这里，由于StandardHost本身还没有完成初始化
+     * 动作，那么就会先调用初始化，然后再执行start动作，这也是为什么有这个校验的原因
+     * 遗留问题？
+     * StandardHost是如何找到StandardContext的？
+     * 下一步研究pipeline？
      * (non-Javadoc)
      * @see org.apache.catalina.core.ContainerBase#initInternal()
      */
@@ -791,6 +797,7 @@ public class StandardHost extends ContainerBase implements Host {
                     Valve valve =
                         (Valve) Class.forName(errorValve).newInstance();
                     getPipeline().addValve(valve);
+                    System.out.println("没有找到ErrorReportValve实例...");
                 }
             } catch (Throwable t) {
                 ExceptionUtils.handleThrowable(t);
@@ -818,8 +825,8 @@ public class StandardHost extends ContainerBase implements Host {
              if( valves[i] == null ) continue;
              if( ((ValveBase)valves[i]).getObjectName() == null ) continue;
              mbeanNames[i] = ((ValveBase)valves[i]).getObjectName().toString();
+             System.out.println("返回JMX注册的bean对象名称：" + mbeanNames[i]);
          }
-
          return mbeanNames;
 
      }

@@ -1772,7 +1772,10 @@ public class StandardWrapper extends ContainerBase
      */
     @Override
     protected synchronized void startInternal() throws LifecycleException {
-    
+        /**
+         * StandardWrapper方法本身没有实现InitInternal()方法，
+         * 实际上Servlet的启动时在LoadOnStartUp()方法中进行启动，包括没有设置LoadOnStartUp方式启动
+         */
         // Send j2ee.state.starting notification 
         if (this.getObjectName() != null) {
             Notification notification = new Notification("j2ee.state.starting", 

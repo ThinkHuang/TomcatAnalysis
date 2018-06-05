@@ -79,12 +79,12 @@ public class AprLifecycleListener
 
     public static boolean isAprAvailable() {
         //https://issues.apache.org/bugzilla/show_bug.cgi?id=48613
-        if (instanceCreated) {
+        if (instanceCreated) { // false
             synchronized (lock) {
                 init();
             }
         }
-        return aprAvailable;
+        return aprAvailable; // false
     }
 
     public AprLifecycleListener() {
@@ -102,6 +102,7 @@ public class AprLifecycleListener
     public void lifecycleEvent(LifecycleEvent event) {
 
         if (Lifecycle.BEFORE_INIT_EVENT.equals(event.getType())) {
+            System.out.println("来自于 org.apache.catalina.core.AprLifecycleListener监听 standardserver 正在启动。。。");
             synchronized (lock) {
                 init();
                 if (aprAvailable) {
