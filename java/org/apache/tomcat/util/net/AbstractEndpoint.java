@@ -550,7 +550,7 @@ public abstract class AbstractEndpoint {
     public abstract void stopInternal() throws Exception;
 
     public final void init() throws Exception {
-        if (bindOnInit) {
+        if (bindOnInit) {// true
             bind();
             bindState = BindState.BOUND_ON_INIT;
         }

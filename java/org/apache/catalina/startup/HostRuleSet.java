@@ -96,7 +96,7 @@ public class HostRuleSet extends RuleSetBase {
         digester.addSetProperties(prefix + "Host");
         digester.addRule(prefix + "Host",
                          new CopyParentClassLoaderRule());
-        digester.addRule(prefix + "Host",
+        digester.addRule(prefix + "Host",// 为StandardHost配置默认监听器，当StandardHost的start启动时，将唤醒HostConfig去部署项目
                          new LifecycleListenerRule
                          ("org.apache.catalina.startup.HostConfig",
                           "hostConfigClass"));

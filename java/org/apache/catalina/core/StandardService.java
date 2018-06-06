@@ -443,7 +443,7 @@ public class StandardService extends LifecycleMBeanBase implements Service {
          * 然后将在getHost时，一层层调用getEngine()，getService()和getServer(),最终完成了链式的初始化
          */
         // Start our defined Container first
-        if (container != null) { // 注入的Connector的时候已经注入了container（StandardEngine)
+        if (container != null) { // 注入Connector的时候已经注入了container（StandardEngine)
             synchronized (container) {
                 container.start();
             }

@@ -383,7 +383,10 @@ public class JIoEndpoint extends AbstractEndpoint {
                 }
                 /*
                  * 创建的serverSocket绑定到端口上后，但是，这里是多线程都绑定到了相同的端口上面，这样不会抛出异常么？
+                 * 这里serverSocket总是监听端口，而不是使用该端口和client进行连接后，对请求进行处理，serverSocket会创建一个
+                 * 子线程去处理请求。当请求结算后，就会将子线程回收到线程池中，循环利用了。
                  * 如何进行请求的分配由什么来决定？
+                 * 请求分配涉及到线程池的使用
                  */
             } catch (BindException orig) {
                 String msg;

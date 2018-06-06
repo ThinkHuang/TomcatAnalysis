@@ -1155,9 +1155,6 @@ public abstract class ContainerBase extends LifecycleMBeanBase
             ((Lifecycle) pipeline).start();
 
         // 各种感兴趣的监听组件是如何加入到注册器中的？
-        /**
-         * 明天研究观察者模式，探寻监听组件是如何被加入到注册器中去的？
-         */
         setState(LifecycleState.STARTING);
 
         // Start our thread
