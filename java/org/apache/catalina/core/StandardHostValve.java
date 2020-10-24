@@ -113,10 +113,10 @@ final class StandardHostValve extends ValveBase {
 
     }
     
-    // ÏÂÃæµÄ·½·¨Ö÷ÒªÊÇÎªÁË×·×ÙÖ´ĞĞÂ·¾¶£¬ÊÖ¶¯Ìí¼Ó
+    // é‡å†™startInternal()æ–¹æ³•ï¼Œé€šè¿‡è§‚å¯Ÿæ—¥å¿—çš„æ‰§è¡Œé¡ºåºï¼Œæ¥å¯¹Tomcatçš„æ‰§è¡Œæµç¨‹è¿›è¡Œåˆ†æ
     public void startInternal() throws LifecycleException
     {
-        System.out.println(this + "Æô¶¯ÁË...");
+        System.out.println(this + "å¯åŠ¨äº†...");
         super.startInternal();
     }
 

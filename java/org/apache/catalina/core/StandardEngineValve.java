@@ -83,10 +83,9 @@ final class StandardEngineValve
 
     }
 
-    // 下面的方法主要是为了追踪执行路径
     public void startInternal() throws LifecycleException
     {
-        System.out.println(this + "启动了...");
+        System.out.println(this + "閲嶅啓startInternal鏂规硶");
         super.startInternal();
     }
 

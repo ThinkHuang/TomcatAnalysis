@@ -77,10 +77,11 @@ public class ErrorReportValve extends ValveBase {
 
     }
     
-    // ÏÂÃæµÄ·½·¨Ö÷ÒªÊÇÎªÁË×·×ÙÖ´ĞĞÂ·¾¶
+    @Override
+    // é‡å†™startInternal()æ–¹æ³•åªæ˜¯ä¸ºäº†è§‚å¯Ÿæ—¥å¿—çš„æ‰§è¡Œé¡ºåº
     public void startInternal() throws LifecycleException
     {
-        System.out.println(this + "Æô¶¯ÁË...");
+        System.out.println(this + "å¯åŠ¨äº†...");
         super.startInternal();
     }
 

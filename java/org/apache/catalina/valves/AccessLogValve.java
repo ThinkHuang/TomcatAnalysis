@@ -1221,7 +1221,7 @@ public class AccessLogValve extends ValveBase implements AccessLog {
         fileDateFormatter.setTimeZone(timezone);
         dateStamp = fileDateFormatter.format(new Date(System.currentTimeMillis()));
         open();
-        System.out.println(this + "∆Ù∂Ø°£°£°£");
+        System.out.println(this + "ÂêØÂä®‰∫Ü");
         setState(LifecycleState.STARTING);
     }
 

@@ -102,7 +102,7 @@ public class AprLifecycleListener
     public void lifecycleEvent(LifecycleEvent event) {
 
         if (Lifecycle.BEFORE_INIT_EVENT.equals(event.getType())) {
-            System.out.println("来自于 org.apache.catalina.core.AprLifecycleListener监听 standardserver 正在启动。。。");
+            System.out.println(" org.apache.catalina.core.AprLifecycleListener. standardserver ");
             synchronized (lock) {
                 init();
                 if (aprAvailable) {
