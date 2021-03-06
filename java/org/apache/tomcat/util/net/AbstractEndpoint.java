@@ -542,6 +542,7 @@ public abstract class AbstractEndpoint {
      * within this class other than ensuring that bind/unbind are called in the
      * right place. It is expected that the calling code will maintain state and
      * prevent invalid state transitions.
+     * AbstractEndpoint 并没有继承自LifecycleBase,因此这些所谓的生命周期方法都是主动维护的
      */
 
     public abstract void bind() throws Exception;

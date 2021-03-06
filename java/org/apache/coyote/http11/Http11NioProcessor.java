@@ -507,6 +507,11 @@ public class Http11NioProcessor extends AbstractHttp11Processor<NioChannel> {
         sendfileData = null;
     }
 
+    /**
+     * 实现文件返回的高效实现，基于服务器的sendFile支持。
+     * @param outputFilters
+     * @return
+     */
     @Override
     protected boolean prepareSendfile(OutputFilter[] outputFilters) {
         String fileName = (String) request.getAttribute(

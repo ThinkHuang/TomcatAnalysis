@@ -639,6 +639,7 @@ public class NioEndpoint extends AbstractEndpoint {
 
     /**
      * Process the specified connection.
+     * 该方法名称起的不好，不知道会设置NioChannel等属性以及PollerEvent的注册
      */
     protected boolean setSocketOptions(SocketChannel socket) {
         // Process the connection
